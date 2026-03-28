@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Models (large binary files — download via setup_models.py)
+models/*.onnx
+models/snakers4/
+models/hub/
+
+# Pipeline outputs (generated at runtime)
+outputs/results.csv
+outputs/checkpoint.txt
+outputs/pipeline.log
+outputs/plots/
+
+# Keep the directory structure
+!outputs/.gitkeep
+!models/.gitkeep
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# pytest cache
+.pytest_cache/
+.coverage
+htmlcov/

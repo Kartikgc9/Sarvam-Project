@@ -1,0 +1,68 @@
+audio:
+  sample_rate: 16000        # Standard for speech models (ASR, TTS)
+  min_duration: 0.5         # seconds — too short = incomplete utterance
+  max_duration: 30.0        # seconds — too long = likely recording error
+
+metrics:
+  snr:
+    frame_length_ms: 25     # 25ms frames (standard in speech processing)
+    hop_length_ms: 10       # 10ms hop
+    noise_percentile: 10    # Bottom 10% energy frames = noise floor estimate
+  silence:
+    threshold_db: -40.0     # Frames below -40 dB treated as silent
+  clipping:
+    threshold: 0.99         # Samples with |amplitude| >= 0.99 = clipped
+
+  vad:
+    threshold: 0.5          # Silero-VAD confidence threshold
+    min_speech_duration_ms: 250
+    min_silence_duration_ms: 100
+
+scoring:
+  weights:
+    snr: 0.30               # Most critical — noise destroys ASR training
+    vad_ratio: 0.25         # Must have actual speech, not just audio
+    dnsmos: 0.20            # Perceptual MOS quality (human-like rating)
+    active_ratio: 0.15      # Non-silent fraction
+    clipping: 0.10          # Signal integrity (distortion)
+  threshold: 0.60           # Minimum score to KEEP a sample
+  snr_min: -5.0             # SNR normalization lower bound (dB)
+  snr_max: 40.0             # SNR normalization upper bound (dB)
+
+hard_rules:
+  min_duration: 0.5         # Hard discard: too short
+  max_duration: 30.0        # Hard discard: too long
+  max_clipping_ratio: 0.05  # Hard discard: >5% clipped samples
+  max_silence_ratio: 0.80   # Hard discard: >80% silence
+
+pipeline:
+  batch_size: 32
+  num_workers: 4
+  output_csv: "outputs/results.csv"
+  checkpoint_file: "outputs/checkpoint.txt"
+  log_file: "outputs/pipeline.log"
+
+dataset:
+  name: "ai4bharat/IndicVoices"
+  languages:
+    - "hi"    # Hindi
+    - "ta"    # Tamil
+    - "te"    # Telugu
+    - "kn"    # Kannada
+    - "ml"    # Malayalam
+    - "bn"    # Bengali
+    - "gu"    # Gujarati
+    - "mr"    # Marathi
+    - "pa"    # Punjabi
+    - "ur"    # Urdu
+  split: "train"
+  streaming: true
+  max_samples_per_language: 100   # Set to null for full dataset run
+  audio_column: "audio"
+  transcript_column: "text"
+  language_column: "language"
+
+models:
+  dnsmos_url: "https://github.com/microsoft/DNS-Challenge/raw/master/DNSMOS/DNSMOS/sig_bak_ovr.onnx"
+  dnsmos_path: "models/sig_bak_ovr.onnx"
+  vad_cache_dir: "models/"
