@@ -165,11 +165,13 @@ def compute_dnsmos(
     try:
         audio_in   = _prepare_audio(audio)
         mel        = _audio_melspec(audio_in)               # (T, 120)
-        mel_input  = mel[np.newaxis, :, :].astype(np.float32)  # (1, T, 120)
+        mel_input  = mel.astype(np.float32)                 # (T, 120) — model expects 2D
 
         input_name = session.get_inputs()[0].name
-        raw_out    = session.run(None, {input_name: mel_input})[0][0]
+        raw_out    = session.run(None, {input_name: mel_input})[0]
         # raw_out shape: (3,) → [sig_raw, bak_raw, ovr_raw]
+        if raw_out.ndim > 1:
+            raw_out = raw_out[0]   # handle batched output if model returns (1,3)
 
         sig_raw, bak_raw, ovr_raw = float(raw_out[0]), float(raw_out[1]), float(raw_out[2])
         p_sig, p_bak, p_ovr = _polyfit_calibrate(sig_raw, bak_raw, ovr_raw)
