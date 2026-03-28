@@ -25,31 +25,31 @@ import numpy as np
 
 logger = logging.getLogger(__name__)
 
-# IndicVoices language config names on HuggingFace Hub
-# These match the directory names produced by setup_dataset.py
+# IndicVoices HuggingFace config names — full English names, not ISO codes
+# Source: load_dataset('ai4bharat/IndicVoices') available configs
 LANGUAGE_CONFIG_MAP = {
-    "hi": "hi",   # Hindi
-    "ta": "ta",   # Tamil
-    "te": "te",   # Telugu
-    "kn": "kn",   # Kannada
-    "ml": "ml",   # Malayalam
-    "bn": "bn",   # Bengali
-    "gu": "gu",   # Gujarati
-    "mr": "mr",   # Marathi
-    "pa": "pa",   # Punjabi
-    "ur": "ur",   # Urdu
-    "as": "as",   # Assamese
-    "or": "or",   # Odia
-    "raj": "raj", # Rajasthani
-    "mai": "mai", # Maithili
-    "ks": "ks",   # Kashmiri
-    "ne": "ne",   # Nepali
-    "sa": "sa",   # Sanskrit
-    "sd": "sd",   # Sindhi
-    "doi": "doi", # Dogri
-    "kok": "kok", # Konkani
-    "mni": "mni", # Manipuri (Meitei)
-    "sat": "sat", # Santali
+    "hi":  "hindi",
+    "ta":  "tamil",
+    "te":  "telugu",
+    "kn":  "kannada",
+    "ml":  "malayalam",
+    "bn":  "bengali",
+    "gu":  "gujarati",
+    "mr":  "marathi",
+    "pa":  "punjabi",
+    "ur":  "urdu",
+    "as":  "assamese",
+    "or":  "odia",
+    "mai": "maithili",
+    "ks":  "kashmiri",
+    "ne":  "nepali",
+    "sa":  "sanskrit",
+    "sd":  "sindhi",
+    "doi": "dogri",
+    "kok": "konkani",
+    "mni": "manipuri",
+    "sat": "santali",
+    "brx": "bodo",
 }
 
 # Candidate column names — checked in order, first match wins
