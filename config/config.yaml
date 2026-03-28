@@ -58,7 +58,7 @@ dataset:
   split: "train"
   streaming: true
   max_samples_per_language: 100   # Set to null for full dataset run
-  audio_column: "audio"
+  audio_column: "audio_filepath"     # IndicVoices parquet column name
   transcript_column: "text"
   language_column: "language"
 
